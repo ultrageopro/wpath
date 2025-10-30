@@ -3,6 +3,7 @@ package watcher
 import (
 	"io/fs"
 	"log"
+	"os"
 	"path/filepath"
 	"sync"
 	"time"
@@ -19,6 +20,11 @@ type Processor struct {
 	logger     *log.Logger
 	Args       config.Args
 	Operations chan pair.Pair[string, out.Event]
+}
+
+func isDir(path string) bool {
+	fi, err := os.Stat(path)
+	return err == nil && fi.IsDir()
 }
 
 func NewProcessor(printer *out.PathPrinter, args config.Args) (*Processor, error) {
@@ -45,7 +51,7 @@ func (p *Processor) updateDirs(path string) error {
 				return err
 			}
 			if d.IsDir() {
-				p.Watcher.Add(path)
+				return p.Watcher.Add(path)
 			}
 			return nil
 		},
@@ -60,10 +66,19 @@ func (p *Processor) watch() {
 			if !ok {
 				return
 			}
+
+			// Тут проверка что создана новая директория
+			if event.Op.Has(fsnotify.Create) && isDir(event.Name) {
+				if err := p.Watcher.Add(event.Name); err != nil {
+					p.logger.Printf("watch add error: %v (path=%s)", err, event.Name)
+				}
+			}
+
+			// А тут уже отрисовка таблицы
 			if event.Op.Has(fsnotify.Create) {
 				p.Operations <- pair.Pair[string, out.Event]{First: event.Name, Second: out.EventCreate}
 			} else if event.Op.Has(fsnotify.Remove) {
-				p.Operations <- pair.Pair[string, out.Event]{First: event.Name, Second: out.EventDelete}
+				p.Operations <- pair.Pair[string, out.Event]{First: event.Name, Second: out.EventRemove}
 			} else if event.Op.Has(fsnotify.Write) {
 				p.Operations <- pair.Pair[string, out.Event]{First: event.Name, Second: out.EventModify}
 			} else if event.Op.Has(fsnotify.Chmod) {
@@ -88,7 +103,6 @@ func (p *Processor) processEvent(event pair.Pair[string, out.Event], mu *sync.Mu
 	if validateRecord(r, p.Args) {
 		p.Printer.Print(r)
 	}
-	p.updateDirs(path)
 	mu.Unlock()
 }
 
@@ -98,6 +112,7 @@ func (p *Processor) Watch(path string, mu *sync.Mutex) error {
 		return err
 	}
 	defer p.Watcher.Close()
+	p.updateDirs(path)
 
 	go p.watch()
 	for event := range p.Operations {

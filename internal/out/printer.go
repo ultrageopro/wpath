@@ -19,7 +19,7 @@ func rowPainter(row table.Row) text.Colors {
 	switch event {
 	case EventCreate:
 		return text.Colors{text.BgHiGreen, text.FgBlack}
-	case EventDelete:
+	case EventRemove:
 		return text.Colors{text.BgHiRed, text.FgWhite}
 	case EventModify:
 		return text.Colors{text.BgHiYellow, text.FgBlack}

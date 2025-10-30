@@ -10,7 +10,7 @@ type Event string
 
 const (
 	EventCreate Event = "CREATED"
-	EventDelete Event = "DELETED"
+	EventRemove Event = "REMOVED"
 	EventModify Event = "MODIFIED"
 	EventChmod  Event = "CHMOD"
 )
