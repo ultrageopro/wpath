@@ -12,6 +12,10 @@ A small utility for viewing changes in a directory in real time
 4. `--no-color` — disable color output.
 5. `--version` — the version of the program.
 
+## Demo
+
+https://github.com/user-attachments/assets/7e053d63-6e6f-442c-b359-1123736de72d
+
 ## License
 
 MIT License
