@@ -93,7 +93,7 @@ func (p *Processor) watch() {
 	}
 }
 
-func (p *Processor) processEvent(event pair.Pair[string, out.Event], mu *sync.Mutex, path string) {
+func (p *Processor) processEvent(event pair.Pair[string, out.Event], mu *sync.Mutex) {
 	mu.Lock()
 	r := out.NewRecord(
 		time.Now(),
@@ -116,7 +116,7 @@ func (p *Processor) Watch(path string, mu *sync.Mutex) error {
 
 	go p.watch()
 	for event := range p.Operations {
-		p.processEvent(event, mu, path)
+		p.processEvent(event, mu)
 	}
 	return err
 }
