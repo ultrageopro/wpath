@@ -1,6 +1,7 @@
 package watcher
 
 import (
+	"fmt"
 	"regexp"
 	"time"
 
@@ -8,7 +9,7 @@ import (
 	"git.culab.ru/course-projects/path/internal/out"
 )
 
-func validateRecord(record out.Record, args config.Args) (bool, error) {
+func validateRecord(record out.Record, args config.Args) bool {
 	valid := true
 	if args.FilterRE != nil {
 		valid, _ = validateByRegex(record, args.FilterRE)
@@ -16,10 +17,14 @@ func validateRecord(record out.Record, args config.Args) (bool, error) {
 	if args.SinceT != nil {
 		valid, _ = validateByTime(record, args.SinceT)
 	}
-	return valid, nil
+	return valid
 }
 
 func validateByRegex(record out.Record, regexp *regexp.Regexp) (bool, error) {
+	if regexp == nil {
+		return true, fmt.Errorf("regexp is nil")
+	}
+
 	if regexp.MatchString(record.Path) {
 		return true, nil
 	}
@@ -27,6 +32,10 @@ func validateByRegex(record out.Record, regexp *regexp.Regexp) (bool, error) {
 }
 
 func validateByTime(record out.Record, since *time.Time) (bool, error) {
+	if since == nil {
+		return true, fmt.Errorf("since is nil")
+	}
+
 	if record.Time.Before(*since) {
 		return false, nil
 	}

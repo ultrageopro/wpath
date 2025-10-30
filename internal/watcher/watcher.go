@@ -85,7 +85,7 @@ func (p *Processor) processEvent(event pair.Pair[string, out.Event], mu *sync.Mu
 		event.Second,
 		event.First,
 	)
-	if ok, _ := validateRecord(r, p.Args); ok {
+	if validateRecord(r, p.Args) {
 		p.Printer.Print(r)
 	}
 	p.updateDirs(path)
