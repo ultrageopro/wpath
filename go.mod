@@ -1,4 +1,4 @@
-module git.culab.ru/course-projects/path
+module github.com/ultrageopro/wpath
 
 go 1.24.0
 

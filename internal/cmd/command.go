@@ -4,10 +4,10 @@ import (
 	"os"
 	"sync"
 
-	"git.culab.ru/course-projects/path/config"
-	"git.culab.ru/course-projects/path/internal/out"
-	"git.culab.ru/course-projects/path/internal/watcher"
 	"github.com/spf13/cobra"
+	"github.com/ultrageopro/wpath/config"
+	"github.com/ultrageopro/wpath/internal/out"
+	"github.com/ultrageopro/wpath/internal/watcher"
 )
 
 var Args config.Args = config.Args{}

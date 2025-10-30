@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"time"
 
-	"git.culab.ru/course-projects/path/config"
-	"git.culab.ru/course-projects/path/internal/out"
+	"github.com/ultrageopro/wpath/config"
+	"github.com/ultrageopro/wpath/internal/out"
 )
 
 func validateRecord(record out.Record, args config.Args) bool {

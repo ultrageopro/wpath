@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.culab.ru/course-projects/path/internal/cmd"
+	"github.com/ultrageopro/wpath/internal/cmd"
 )
 
 func main() {

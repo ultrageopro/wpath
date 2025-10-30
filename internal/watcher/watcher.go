@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"git.culab.ru/course-projects/path/config"
-	"git.culab.ru/course-projects/path/internal/out"
 	"github.com/fsnotify/fsnotify"
 	"github.com/notEpsilon/go-pair"
+	"github.com/ultrageopro/wpath/config"
+	"github.com/ultrageopro/wpath/internal/out"
 )
 
 type Processor struct {

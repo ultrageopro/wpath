@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"git.culab.ru/course-projects/path/config"
-	"git.culab.ru/course-projects/path/internal/out"
 	"github.com/stretchr/testify/assert"
+	"github.com/ultrageopro/wpath/config"
+	"github.com/ultrageopro/wpath/internal/out"
 )
 
 func TestValidateByTime(t *testing.T) {
