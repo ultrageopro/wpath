@@ -13,9 +13,9 @@ import (
 var Args config.Args = config.Args{}
 
 var rootCmd = &cobra.Command{
-	Use:     "dirwatch --path <DIR> [--filter-name REGEX] [--since RFC3339|UNIX] [--no-color]",
+	Use:     "wpath --path <DIR> [--filter-name REGEX] [--since RFC3339|UNIX] [--no-color]",
 	Short:   "CLI для наблюдения за изменениями в директории",
-	Version: "0.1.0",
+	Version: "0.2.0",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if pathErr := validatePath(Args.FlagPath); pathErr != nil {
 			return pathErr
